@@ -1,2 +1,2 @@
-﻿using var game = new WanderLore.Game1();
+﻿using var game = new WanderLore.WanderLore();
 game.Run();
