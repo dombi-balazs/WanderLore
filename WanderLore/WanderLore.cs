@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoGameLibrary;
 
 namespace WanderLore
 {
@@ -9,6 +8,8 @@ namespace WanderLore
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Texture2D _grass;
+        private Texture2D _hedgehog;
 
         public WanderLore()
         {
@@ -27,6 +28,8 @@ namespace WanderLore
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _grass = Content.Load<Texture2D>("tiles/grass1");
+            _hedgehog = Content.Load<Texture2D>("characters/hedgehog");
 
             // TODO: use this.Content to load your game content here
         }
@@ -43,7 +46,12 @@ namespace WanderLore
 
         protected override void Draw(GameTime gameTime) 
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            _spriteBatch.Begin();
+
+            _spriteBatch.Draw(_grass, Vector2.Zero, Color.White);
+            _spriteBatch.Draw(_hedgehog, Vector2.Zero, Color.White);
+
+            _spriteBatch.End();
 
             // TODO: Add your drawing code here
 
