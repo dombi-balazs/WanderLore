@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace WanderLore;
 
-public class Game1 : Game
+public class WanderLore : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
-    public Game1()
+    public WanderLore()
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
