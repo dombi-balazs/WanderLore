@@ -8,6 +8,8 @@ public class WanderLore : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+    private Texture2D _grass1;
+    private Texture2D _hedgehog;
 
     public WanderLore()
     {
@@ -26,6 +28,8 @@ public class WanderLore : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        _grass1 = Content.Load<Texture2D>("tiles/grass1");
+        _hedgehog = Content.Load<Texture2D>("characters/hedgehog");
 
         // TODO: use this.Content to load your game content here
     }
@@ -42,10 +46,15 @@ public class WanderLore : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Color.Black);
+        _spriteBatch.Begin();
+        _spriteBatch.Draw(_grass1, Vector2.Zero, Color.White);
+        _spriteBatch.Draw(_hedgehog, Vector2.Zero, Color.White);
+        
 
         // TODO: Add your drawing code here
 
+        _spriteBatch.End();
         base.Draw(gameTime);
     }
 }
