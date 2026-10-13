@@ -48,7 +48,7 @@ public class WanderLore : Game
     {
         GraphicsDevice.Clear(Color.Black);
         _spriteBatch.Begin();
-        _spriteBatch.Draw(_grass1, Vector2.Zero, Color.White);
+        _spriteBatch.Draw(_grass1, new Vector2(100,200), Color.White);
         _spriteBatch.Draw(_hedgehog, Vector2.Zero, Color.White);
         
 
