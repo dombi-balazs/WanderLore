@@ -4,15 +4,17 @@ using Microsoft.Xna.Framework.Input;
 
 namespace WanderLore;
 
-public class WanderLore : Game
+public class WanderLoreGame : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     private Texture2D _grass1;
     private Texture2D _hedgehog;
+    private readonly IScreenService _screenService;
 
-    public WanderLore()
+    public WanderLoreGame(IScreenService screenService)
     {
+        _screenService = screenService;
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
@@ -21,7 +23,7 @@ public class WanderLore : Game
     protected override void Initialize()
     {
         // TODO: Add your initialization logic here
-
+        _screenService.SetFullScreen(_graphics);
         base.Initialize();
     }
 
@@ -47,9 +49,25 @@ public class WanderLore : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.Black);
-        _spriteBatch.Begin();
-        _spriteBatch.Draw(_grass1, new Vector2(100,200), Color.White);
-        _spriteBatch.Draw(_hedgehog, Vector2.Zero, Color.White);
+        _spriteBatch.Begin(samplerState: SamplerState.PointClamp); // This is important for pixel art games
+        _spriteBatch.Draw(
+            _grass1,
+            new Vector2(100,200),
+            null,
+            Color.White,
+            MathHelper.ToRadians(0),
+            new Vector2(_grass1.Width * 0.5f, _grass1.Height * 0.5f),
+            3f, SpriteEffects.None, 0.0f);
+        _spriteBatch.Draw(
+            _hedgehog,
+            new Vector2(Window.ClientBounds.Width*0.5f, Window.ClientBounds.Height*0.5f),
+            null,
+            Color.White,
+            MathHelper.ToRadians(0),
+            new Vector2(_hedgehog.Width * 0.5f, _hedgehog.Height * 0.5f),
+            2f,
+            SpriteEffects.FlipVertically,
+            0.0f);
         
 
         // TODO: Add your drawing code here
