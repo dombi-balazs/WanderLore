@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-namespace WanderLore;
+namespace WanderLore.Services;
 
 public interface IScreenService
 {

@@ -5,6 +5,7 @@ using WanderLore.Services;
 var services = new ServiceCollection();
 services.AddSingleton<IScreenService, ScreenService>();
 services.AddSingleton<IAtlasService, AtlasService>();
+services.AddSingleton<IDrawService, DrawService>();
 services.AddSingleton<WanderLoreGame>();
 var serviceProvider = services.BuildServiceProvider();
 
