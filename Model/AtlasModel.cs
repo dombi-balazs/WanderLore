@@ -1,4 +1,4 @@
-namespace WanderLore;
+namespace WanderLore.Models;
 
 public class AtlasModel
 {
