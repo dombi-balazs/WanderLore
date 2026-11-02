@@ -12,12 +12,12 @@ class DrawService : IDrawService
     {
         _atlasService = atlasService;
     }
-    public void DrawAtlasItems(SpriteBatch spriteBatch, Texture2D textureAtlas, Viewport viewport)
+    public void DrawAtlasItems(SpriteBatch spriteBatch, Texture2D textureAtlas, Viewport viewport, Vector2 position)
     {
         var grass1 = _atlasService[Grass1];
         var hedgehog = _atlasService[Hedgehog];
+        
 
-        // Fű kirajzolása
         spriteBatch.Draw(
             textureAtlas,
             new Vector2(100, 200),
@@ -31,7 +31,7 @@ class DrawService : IDrawService
 
         spriteBatch.Draw(
         textureAtlas,
-        new Vector2(viewport.Width * 0.5f, viewport.Height * 0.5f),
+        position,
         hedgehog,
         Color.White,
         0f,
