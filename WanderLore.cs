@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using WanderLore.Services;
 
 namespace WanderLore;
@@ -16,6 +17,7 @@ public class WanderLoreGame : Game
     private readonly IDrawService _drawService;
     private readonly IInputService _inputService;
     private readonly ICameraService _cameraService;
+    private Song _backgroundMusic;
 
     public WanderLoreGame(
         IScreenService screenService,
@@ -46,6 +48,8 @@ public class WanderLoreGame : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         _textureAtlas = Content.Load<Texture2D>("texture_atlas/texture_atlas");
+        _backgroundMusic = Content.Load<Song>("music/background_music");
+        MediaPlayer.Play(_backgroundMusic);
 
 
         // TODO: use this.Content to load your game content here
