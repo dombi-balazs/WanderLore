@@ -52,19 +52,19 @@ public class WanderLoreGame : Game
     }
 
     protected override void Update(GameTime gameTime)
-    {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
+{
+    if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+        Exit();
 
-        _inputService.CheckKeyboardInput();
-        Vector2 hedgehogPoint = _inputService.hedgehogPosition;
-        Vector2 playerPosition = new Vector2(hedgehogPoint.X, hedgehogPoint.Y);
-        Vector2 playerVelocity = Vector2.Zero;
-        _cameraService.UpdateCameraView(gameTime, playerPosition, playerVelocity);
+    _inputService.CheckKeyboardInput();
 
-        base.Update(gameTime);
-    }
+    Vector2 playerPosition = _inputService.hedgehogPosition;
+    Vector2 playerVelocity = _inputService.hedgehogVelocity;
 
+    _cameraService.UpdateCameraView(gameTime, playerPosition, playerVelocity);
+
+    base.Update(gameTime);
+}
     protected override void Draw(GameTime gameTime)
     {
         _hedgehogPosition = _inputService.hedgehogPosition;
