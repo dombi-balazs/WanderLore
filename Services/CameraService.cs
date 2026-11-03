@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -6,7 +7,7 @@ namespace WanderLore.Services
     public class CameraService : ICameraService
     {
         public Vector2 Position { get; private set; }
-        
+
         private Vector2 _currentOffset = Vector2.Zero;
         private readonly float _maxLookAheadDistance = 80f;
         private readonly float _transitionSpeed = 5f;
@@ -30,9 +31,12 @@ namespace WanderLore.Services
 
         public Matrix GetViewMatrix(GraphicsDevice graphicsDevice)
         {
+            int x = (int)MathF.Round(Position.X);
+            int y = (int)MathF.Round(Position.Y);
+
             var centerOffset = new Vector2(graphicsDevice.Viewport.Width / 2f, graphicsDevice.Viewport.Height / 2f);
 
-            return Matrix.CreateTranslation(-Position.X, -Position.Y, 0) *
+            return Matrix.CreateTranslation(-x, -y, 0) *
                    Matrix.CreateTranslation(centerOffset.X, centerOffset.Y, 0);
         }
     }
