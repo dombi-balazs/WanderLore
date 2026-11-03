@@ -15,14 +15,21 @@ public class WanderLoreGame : Game
     private readonly IAtlasService _atlasService;
     private readonly IDrawService _drawService;
     private readonly IInputService _inputService;
+    private readonly ICameraService _cameraService;
 
-    public WanderLoreGame(IScreenService screenService, IAtlasService atlasService, IDrawService drawService, IInputService inputService)
+    public WanderLoreGame(
+        IScreenService screenService,
+    IAtlasService atlasService,
+    IDrawService drawService,
+    IInputService inputService,
+    ICameraService cameraService)
     {
         _screenService = screenService;
         _atlasService = atlasService;
         _drawService = drawService;
         _graphics = new GraphicsDeviceManager(this);
         _inputService = inputService;
+        _cameraService = cameraService;
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
     }
@@ -50,6 +57,10 @@ public class WanderLoreGame : Game
             Exit();
 
         _inputService.CheckKeyboardInput();
+        Vector2 hedgehogPoint = _inputService.hedgehogPosition;
+        Vector2 playerPosition = new Vector2(hedgehogPoint.X, hedgehogPoint.Y);
+        Vector2 playerVelocity = Vector2.Zero;
+        _cameraService.UpdateCameraView(gameTime, playerPosition, playerVelocity);
 
         base.Update(gameTime);
     }
@@ -58,7 +69,12 @@ public class WanderLoreGame : Game
     {
         _hedgehogPosition = _inputService.hedgehogPosition;
         GraphicsDevice.Clear(Color.Black);
-        _spriteBatch.Begin(samplerState: SamplerState.PointClamp); // This is important for pixel art games
+
+        _spriteBatch.Begin(
+            samplerState: SamplerState.PointClamp, 
+            transformMatrix: _cameraService.GetViewMatrix(GraphicsDevice)
+        );
+
         _drawService.DrawAtlasItems(_spriteBatch, _textureAtlas, GraphicsDevice.Viewport, _hedgehogPosition);
 
         _spriteBatch.End();
