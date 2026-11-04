@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Xna.Framework;
 using WanderLore.Models;
 
 namespace WanderLore.Services
@@ -21,8 +22,8 @@ namespace WanderLore.Services
             {
                 for (int j = 0; j < _tileMapModel.TileMapHeight; j++)
                 {
-                    int randomZ = _random.Next(0,9);   
-                    _TileMap[i, j] = _random.Next();
+                    int randomZ = _random.Next(0,10);   
+                    _TileMap[i, j] = randomZ;
                 }
             }
         }
@@ -37,7 +38,7 @@ namespace WanderLore.Services
             {
                 int randomX = _random.Next(0, _tileMapModel.TileMapWidth);
                 int randomY = _random.Next(0, _tileMapModel.TileMapHeight);
-                int randomZ = _random.Next(10,11);
+                int randomZ = _random.Next(10,12);
                 
                 int _forestWidth = _random.Next(1, 20);
                 int _forestHeight = _random.Next(1, 20);
@@ -91,6 +92,7 @@ namespace WanderLore.Services
 
         public void DrawTileMap()
         {
+
             
         }
     }

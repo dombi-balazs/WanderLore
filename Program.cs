@@ -8,6 +8,7 @@ services.AddSingleton<IAtlasService, AtlasService>();
 services.AddSingleton<IDrawService, DrawService>();
 services.AddSingleton<IInputService, InputService>();
 services.AddSingleton<ICameraService, CameraService>();
+services.AddSingleton<ITileMapService, TileMapService>();
 services.AddSingleton<WanderLoreGame>();
 var serviceProvider = services.BuildServiceProvider();
 

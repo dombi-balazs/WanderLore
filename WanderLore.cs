@@ -17,6 +17,7 @@ public class WanderLoreGame : Game
     private readonly IDrawService _drawService;
     private readonly IInputService _inputService;
     private readonly ICameraService _cameraService;
+    private readonly ITileMapService _tileMapService;
     private Song _backgroundMusic;
 
     public WanderLoreGame(
@@ -24,7 +25,8 @@ public class WanderLoreGame : Game
     IAtlasService atlasService,
     IDrawService drawService,
     IInputService inputService,
-    ICameraService cameraService)
+    ICameraService cameraService,
+    ITileMapService tileMapService)
     {
         _screenService = screenService;
         _atlasService = atlasService;
@@ -32,6 +34,7 @@ public class WanderLoreGame : Game
         _graphics = new GraphicsDeviceManager(this);
         _inputService = inputService;
         _cameraService = cameraService;
+        _tileMapService = tileMapService;
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
     }
