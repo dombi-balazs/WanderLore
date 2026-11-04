@@ -5,5 +5,6 @@ namespace WanderLore.Services
         void GenerateTileMap();
         void ChangeTileMap();
         void DrawTileMap();
+        void DrawTileMapWithTreeTransparency();
     }
 }

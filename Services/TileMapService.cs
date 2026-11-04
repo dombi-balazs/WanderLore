@@ -92,8 +92,35 @@ namespace WanderLore.Services
 
         public void DrawTileMap()
         {
+            // ==========================================================
+        // TODO: 1. Calculate the total size of the matrix in pixels
+        // ==========================================================
 
-            
+        // ==========================================================
+        // TODO: 2. Place the hedgehog in the center initially
+        // ==========================================================
         }
+
+        // ==========================================================
+        // TODO: Another method for drawing the tilemap and handling transparency
+        // ==========================================================
+        public void DrawTileMapWithTreeTransparency(/* parameters */)
+        {
+            // - Request the hedgehog's coordinates.
+            
+            // - Based on the coordinates, check which tile the hedgehog is on.
+            
+            // - Draw that tile and, in every direction, enough tiles to cover 
+            //   what is visible on the screen plus 10 extra tiles in all directions 
+            //   (is this enough for the offset?).
+            
+            // - If there is a tree, first draw a random grass block, 
+            //   and then draw the tree on top of it.
+            
+            // - If the hedgehog's coordinates match a tree tile coordinate, 
+            //   make that tree transparent + every tree tile that is within 3 tiles 
+            //   of that tree tile.
+        }
+
     }
 }
