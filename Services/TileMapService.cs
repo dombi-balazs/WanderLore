@@ -15,12 +15,14 @@ namespace WanderLore.Services
 
         public void GenerateTileMap()
         {
+            Random _random = new();
             _TileMap = new int[_tileMapModel.TileMapWidth, _tileMapModel.TileMapHeight];
             for (int i = 0; i < _tileMapModel.TileMapWidth; i++)
             {
                 for (int j = 0; j < _tileMapModel.TileMapHeight; j++)
                 {
-                    _TileMap[i, j] = _tileMapModel.InitialArrayValue;
+                    int randomZ = _random.Next(0,9);   
+                    _TileMap[i, j] = _random.Next();
                 }
             }
         }
@@ -33,9 +35,9 @@ namespace WanderLore.Services
 
             for (int i = 0; i < _forestNumber; i++)
             {
-                // X tengely max a TileMapWidth, Y tengely max a TileMapHeight
                 int randomX = _random.Next(0, _tileMapModel.TileMapWidth);
                 int randomY = _random.Next(0, _tileMapModel.TileMapHeight);
+                int randomZ = _random.Next(10,11);
                 
                 int _forestWidth = _random.Next(1, 20);
                 int _forestHeight = _random.Next(1, 20);
@@ -52,7 +54,7 @@ namespace WanderLore.Services
 
                             if (x < _tileMapModel.TileMapWidth && y < _tileMapModel.TileMapHeight)
                             {
-                                _TileMap[x, y] = 2;
+                                _TileMap[x, y] = randomZ;
                             }
                         }
                     }
@@ -79,7 +81,7 @@ namespace WanderLore.Services
 
                             if (x < _tileMapModel.TileMapWidth && y < _tileMapModel.TileMapHeight)
                             {
-                                _TileMap[x, y] = 3;
+                                _TileMap[x, y] = 12;
                             }
                         }
                     }
