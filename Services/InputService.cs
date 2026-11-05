@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using WanderLore.Models;
 
 namespace WanderLore.Services;
 
@@ -9,7 +10,16 @@ class InputService : IInputService
     MouseState mouseState = Mouse.GetState();
     private const float MOVEMENT_SPEED = 5.0f;
 
-    public Vector2 hedgehogPosition { get; set; } = new Vector2(400, 300);
+    public Vector2 hedgehogPosition { get; set; }
+
+    private TileMapModel _tileMapModel;
+
+    public InputService(TileMapModel tileMapModel)
+    {
+        _tileMapModel = tileMapModel;
+        hedgehogPosition = _tileMapModel.SpawnPoint;
+    }
+
 
     public void CheckKeyboardInput()
     {

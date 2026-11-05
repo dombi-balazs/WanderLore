@@ -45,6 +45,9 @@ public class WanderLoreGame : Game
         _screenService.SetFullScreen(_graphics);
         base.Initialize();
         _atlasService.LoadAtlasData();
+        _tileMapService.GenerateTileMap();
+        _tileMapService.ChangeTileMap();
+        _tileMapService.DrawTileMap();
     }
 
     protected override void LoadContent()
@@ -75,10 +78,11 @@ public class WanderLoreGame : Game
     {
         _hedgehogPosition = _inputService.hedgehogPosition;
         GraphicsDevice.Clear(Color.Black);
+        var cameraMatrix = _cameraService.GetViewMatrix(GraphicsDevice);
 
         _spriteBatch.Begin(
-            samplerState: SamplerState.PointClamp, 
-            transformMatrix: _cameraService.GetViewMatrix(GraphicsDevice)
+            samplerState: SamplerState.PointClamp,
+            transformMatrix: cameraMatrix
         );
 
         _drawService.DrawAtlasItems(_spriteBatch, _textureAtlas, GraphicsDevice.Viewport, _hedgehogPosition);
