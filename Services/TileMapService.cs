@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using WanderLore.Models;
 
 namespace WanderLore.Services
@@ -8,10 +9,14 @@ namespace WanderLore.Services
     {
         private TileMapModel _tileMapModel;
         private int[,] _TileMap;
+        private readonly IInputService _inputService;
+        private readonly IAtlasService _atlasService;
 
-        public TileMapService(TileMapModel tileMapModel)
+        public TileMapService(TileMapModel tileMapModel, IInputService inputService, IAtlasService atlasService)
         {
             _tileMapModel = tileMapModel;
+            _inputService = inputService;
+            _atlasService = atlasService;
         }
 
         public void GenerateTileMap()
@@ -22,7 +27,7 @@ namespace WanderLore.Services
             {
                 for (int j = 0; j < _tileMapModel.TileMapHeight; j++)
                 {
-                    int randomZ = _random.Next(0,10);   
+                    int randomZ = _random.Next(0, 10);
                     _TileMap[i, j] = randomZ;
                 }
             }
@@ -38,8 +43,8 @@ namespace WanderLore.Services
             {
                 int randomX = _random.Next(0, _tileMapModel.TileMapWidth);
                 int randomY = _random.Next(0, _tileMapModel.TileMapHeight);
-                int randomZ = _random.Next(10,12);
-                
+                int randomZ = _random.Next(12, 14); // Trees1 (12) vagy Trees2 (13)
+
                 int _forestWidth = _random.Next(1, 20);
                 int _forestHeight = _random.Next(1, 20);
                 int _forestFillPercentage = _random.Next(1, 100);
@@ -66,7 +71,7 @@ namespace WanderLore.Services
             {
                 int randomX = _random.Next(0, _tileMapModel.TileMapWidth);
                 int randomY = _random.Next(0, _tileMapModel.TileMapHeight);
-                
+
                 int _waterWidth = _random.Next(1, 20);
                 int _waterHeight = _random.Next(1, 20);
                 int _waterFillPercentage = _random.Next(1, 100);
@@ -82,7 +87,7 @@ namespace WanderLore.Services
 
                             if (x < _tileMapModel.TileMapWidth && y < _tileMapModel.TileMapHeight)
                             {
-                                _TileMap[x, y] = 12;
+                                _TileMap[x, y] = 14;
                             }
                         }
                     }
@@ -90,36 +95,56 @@ namespace WanderLore.Services
             }
         }
 
-        public void DrawTileMap() //likely removable later
+        public void DrawTileMap(SpriteBatch spriteBatch, Texture2D textureAtlas, Viewport viewport)
         {
-            int _tileSize = 64;
-            int _tileMapWidth = _tileMapModel.TileMapWidth;
-            int _tileMapHeight = _tileMapModel.TileMapHeight;
-            int _tileMapX = _tileSize * _tileMapWidth;
-            int _tileMapY = _tileSize * _tileMapHeight;
-            Vector2 _center = new(_tileMapX / 2, _tileMapY / 2);
-        }
+            if (_TileMap == null) return;
 
-        // ==========================================================
-        // TODO: Another method for drawing the tilemap and handling transparency
-        // ==========================================================
-        public void DrawTileMapWithTreeTransparency(/* parameters */)
-        {
-            // - Request the hedgehog's coordinates.
-            
-            // - Based on the coordinates, check which tile the hedgehog is on.
-            
-            // - Draw that tile and, in every direction, enough tiles to cover 
-            //   what is visible on the screen plus 10 extra tiles in all directions 
-            //   (is this enough for the offset?).
-            
-            // - If there is a tree, first draw a random grass block, 
-            //   and then draw the tree on top of it.
-            
-            // - If the hedgehog's coordinates match a tree tile coordinate, 
-            //   make that tree transparent + every tree tile that is within 3 tiles 
-            //   of that tree tile.
-        }
+            int tileSize = _tileMapModel.TileMapTileSize; // 128
+            Vector2 hedgehogPos = _inputService.hedgehogPosition;
 
+            int hedgehogTileX = (int)MathF.Floor(hedgehogPos.X / tileSize);
+            int hedgehogTileY = (int)MathF.Floor(hedgehogPos.Y / tileSize);
+
+            int visibleCols = (int)MathF.Ceiling(viewport.Width / (float)tileSize) + 20;
+            int visibleRows = (int)MathF.Ceiling(viewport.Height / (float)tileSize) + 20;
+
+            int startX = Math.Max(0, hedgehogTileX - (visibleCols / 2) - 10);
+            int endX = Math.Min(_tileMapModel.TileMapWidth - 1, hedgehogTileX + (visibleCols / 2) + 10);
+            int startY = Math.Max(0, hedgehogTileY - (visibleRows / 2) - 10);
+            int endY = Math.Min(_tileMapModel.TileMapHeight - 1, hedgehogTileY + (visibleRows / 2) + 10);
+
+            for (int x = startX; x <= endX; x++)
+            {
+                for (int y = startY; y <= endY; y++)
+                {
+                    int tileId = _TileMap[x, y];
+                    Vector2 position = new Vector2(x * tileSize, y * tileSize);
+
+                    if (tileId == 12 || tileId == 13)
+                    {
+                        int grassIndex = ((x * 73 + y * 37) % 10) + 1;
+                        RegionModel grassRegion = (RegionModel)Enum.Parse(typeof(RegionModel), $"Grass{grassIndex}");
+
+                        spriteBatch.Draw(textureAtlas, position, _atlasService[grassRegion], Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0f);
+
+                        RegionModel treeRegion = (tileId == 12) ? RegionModel.Trees1 : RegionModel.Trees2;
+                        spriteBatch.Draw(textureAtlas, position, _atlasService[treeRegion], Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0f);
+                    }
+                    else
+                    {
+                        RegionModel region = tileId switch
+                        {
+                            >= 0 and <= 9 => (RegionModel)Enum.Parse(typeof(RegionModel), $"Grass{tileId + 1}"),
+                            10 => RegionModel.Trees1,
+                            11 => RegionModel.Trees2,
+                            12 => RegionModel.Water1,
+                            _ => RegionModel.Grass1
+                        };
+
+                        spriteBatch.Draw(textureAtlas, position, _atlasService[region], Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0f);
+                    }
+                }
+            }
+        }
     }
 }

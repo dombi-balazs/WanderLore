@@ -41,13 +41,13 @@ public class WanderLoreGame : Game
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
         _screenService.SetFullScreen(_graphics);
         base.Initialize();
         _atlasService.LoadAtlasData();
         _tileMapService.GenerateTileMap();
         _tileMapService.ChangeTileMap();
-        _tileMapService.DrawTileMap();
+        _tileMapService.GenerateTileMap();
+        _tileMapService.ChangeTileMap();
     }
 
     protected override void LoadContent()
@@ -56,9 +56,6 @@ public class WanderLoreGame : Game
         _textureAtlas = Content.Load<Texture2D>("texture_atlas/texture_atlas");
         _backgroundMusic = Content.Load<Song>("music/background_music");
         MediaPlayer.Play(_backgroundMusic);
-
-
-        // TODO: use this.Content to load your game content here
     }
 
     protected override void Update(GameTime gameTime)
@@ -85,6 +82,7 @@ public class WanderLoreGame : Game
             transformMatrix: cameraMatrix
         );
 
+        _tileMapService.DrawTileMap(_spriteBatch, _textureAtlas, GraphicsDevice.Viewport);
         _drawService.DrawAtlasItems(_spriteBatch, _textureAtlas, GraphicsDevice.Viewport, _hedgehogPosition);
 
         _spriteBatch.End();
