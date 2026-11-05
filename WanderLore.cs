@@ -67,7 +67,6 @@ public class WanderLoreGame : Game
 
     Vector2 playerPosition = _inputService.hedgehogPosition;
     Vector2 playerVelocity = _inputService.hedgehogVelocity;
-
     _cameraService.UpdateCameraView(gameTime, playerPosition, playerVelocity);
 
     base.Update(gameTime);

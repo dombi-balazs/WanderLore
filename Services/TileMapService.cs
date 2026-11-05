@@ -92,9 +92,16 @@ namespace WanderLore.Services
 
         public void DrawTileMap()
         {
-            // ==========================================================
-        // TODO: 1. Calculate the total size of the matrix in pixels
-        // ==========================================================
+            /*int _tileSize = 64;
+            int _tileMapWidth = _tileMapModel.TileMapWidth;
+            int _tileMapHeight = _tileMapModel.TileMapHeight;
+            int _tileMapX = _tileSize * _tileMapWidth;
+            int _tileMapY = _tileSize * _tileMapHeight;
+            Point _center = new Point(_tileMapX / 2, _tileMapY / 2);
+            _tileMapModel.SpawnPoint = _center;*/
+            
+            
+
 
         // ==========================================================
         // TODO: 2. Place the hedgehog in the center initially
